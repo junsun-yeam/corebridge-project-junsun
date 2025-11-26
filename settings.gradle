@@ -1,0 +1,4 @@
+rootProject.name = 'corebridge'
+
+include 'corebridge-core'
+include 'corebridge-batch'
