@@ -37,3 +37,5 @@ bin/
 
 # Env
 **/src/main/resources/.env
+
+./env

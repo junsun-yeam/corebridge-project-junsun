@@ -10,68 +10,36 @@
 
 ---
 
-# 실제 배포 접속 주소
-
-## 프론트
-
-* []()
-
-## 백엔드
-
-* []()
-
-## URL 정리
-
-* `https://www.core-bridge.co.kr/jobs~` : 모든 권한의 사용자
-* `https://www.core-bridge.co.kr/amdin/~` : 관리자, 채용 담당자, 면접관
-
-# 테스트 계정
-
-## 관리자
-
-* ID : `admin01@core-bridge.co.kr`
-* PW : `qwer1234`
-
-## 채용 담당자
-
-* ID : `recruiter01@core-bridge.co.kr`
-* PW : `qwer1234`
-
-## 면접관
-
-* ID : `interviewer01@core-bridge.co.kr`
-* PW : `qwer1234`
-
-## 지원자
-
-* ID : `wnstjs1031@naver.com`
-* PW : `qwer1234`
-
----
-
 # 📑 목차 (Table of Contents)
 
 - [프로젝트 기획과 설계](#프로젝트-기획과-설계)
     + [1. 시스템 아키텍처](#-1-시스템-아키텍처)
     + [2. ERD](#-2-erd)
+    + [3. 핵심기술](#-2-erd)
+  
 
 - [나의 역할 소개](#-프로젝트-소개)
     * [1. 내가 맡은 주요기능](#1-개요)
-    * [2. DB 성능 개선](#2-핵심-기능)
-    * [3. 추후 개선사항](#3-Es)
+    * [2. 주요 성능 개선](#2-핵심-기능)
+    * [3. 한계](#3-한계)
 
 
 ---
 
 # 프로젝트 기획과 설계
 
-## 🔧 1. 시스템 아키텍처
+## 1. 시스템 아키텍처
 
 ![시스템아키텍쳐.png](https://github.com/user-attachments/assets/fa562ef8-c613-4f0e-8a2c-3ace9a98cf95)
 
-## 🔗 2. ERD
+## 2. ERD
 
 ![ERD.png](./docs/ERD.png)
+
+## 3. 핵심 기술
+백엔드: <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original-wordmark.svg" width="60" height="60" alt="Java" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original-wordmark.svg" width="60" height="60" alt="Spring Boot" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mariadb/mariadb-original.svg" width="60" height="60" alt="MariaDB" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" width="60" height="60" alt="Docker" /> &nbsp;&nbsp; <img
+프론트: <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-line.svg" width="60" height="60" alt="Vue.js" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="60" height="60" alt="TypeScript" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="60" height="60" alt="JavaScript" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original-wordmark.svg" width="60" height="60" alt="TailwindCSS" />
+도구:  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="60" height="60" alt="GitHub" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" width="60" height="60" alt="Git" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" width="60" height="60" alt="VSCode" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/intellij/intellij-original.svg" width="60" height="60" alt="IntelliJ IDEA" /> </p>
 
 # 나의 역할 소개
 
@@ -101,6 +69,74 @@
 ### 지원자 채용공고 조회
 지원자가 어떤 공고가 있는지 확인하는 기능 구현
 ![지원현황 확인](docs/gif/채용공고조회.gif)
+
+## 2. DB 성능개선
+
+본 프로젝트에서 실제 데이터 50만건 이상의 공고를 등록 후에 채용공고 조회 API의 성능 병목을 분석하고,
+원인 파악 및 개선을 단계적으로 수행
+
+---
+
+### 문제요약
+
+1. 연관관계 LAZY 로딩으로 인한 N+1 발생
+- 채용공고 조회 시 부서, 채용단계, 지원자 수 등 관련된 테이블을 함께 조회하면서 예상치 못한 다중 N+1 쿼리가 발생
+- 결과적으로 DB Connection Pool 점유율 상승 -> 응답 지연 -> 페이징 렌더링 지연으로 이어짐
+
+2. 인덱스 미적용
+- 인덱스가 적용되지 않아 모든 데이터를 확인하는 Full Scan 발생
+
+### 원인 분석
+- N+1 발생 JPA LAZY 기본값 + join fetch 미사용
+- index 미적용 %keyword% 검색으로 인덱스 탐색 불가
+- 불필요한 모든 필드 SELECT / JOIN  
+- 50만 건 데이터 전체 Scan
+
+### 개선전 성능
+#### 실제 데이터 50만건 기반 성능 측정(Locust)
+- 유저: 50명 
+- 시간: 2분 
+- 테스트대상(전체조회, 경력검색, 복합검색, 제목검색)
+
+![개선전](docs/image/개선전 성능.png) (실제 측정자료)
+
+![개선전](docs/image/개선전 성능표.png)
+
+
+### 개선 방법
+
+1. QueryDsl기반 단일 쿼리 최적화
+- 필요한 컬럼만 조회하는 DTO Projection(QueryDsl) 적용
+- 불필요한 엔티티 join 제거
+- join fetch 적용해 N+1 제거
+
+2. 인덱스 재설계 
+- 제목
+- 경력(경력, 신입, 무관)
+- 공고생성일자
+
+### 개선후 성능
+![개선후](docs/image/개선후%20성능.png)
+
+![img.png](docs/image/개선후%20성능%20표.png)
+
+## 3. 한계
+
+- 부분 검색(%keyword%)은 구조적으로 인덱스를 활용할 수 없음
+- 제목 기반의 Full-Text 검색은 결국 DB로는 한계
+
+추후 해결 방안
+- Elasticsearch 도입 필요성 확인
+  - 역색인 기반 구조로 부분 매칭에도 빠른 검색 가능
+  - 한글 형태소 분석기(nori tokenizer)로 정확도 개선
+  - 검색 스케일 아웃 구조로 대규모 트래픽 대비 가능
+
+
+
+
+
+
+
 
 
 
