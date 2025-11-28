@@ -37,9 +37,16 @@
 ![ERD.png](./docs/ERD.png)
 
 ## 3. 핵심 기술
-백엔드: <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original-wordmark.svg" width="60" height="60" alt="Java" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original-wordmark.svg" width="60" height="60" alt="Spring Boot" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mariadb/mariadb-original.svg" width="60" height="60" alt="MariaDB" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" width="60" height="60" alt="Docker" /> &nbsp;&nbsp; <img
-프론트: <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-line.svg" width="60" height="60" alt="Vue.js" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="60" height="60" alt="TypeScript" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="60" height="60" alt="JavaScript" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original-wordmark.svg" width="60" height="60" alt="TailwindCSS" />
-도구:  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="60" height="60" alt="GitHub" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" width="60" height="60" alt="Git" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" width="60" height="60" alt="VSCode" /> &nbsp;&nbsp; <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/intellij/intellij-original.svg" width="60" height="60" alt="IntelliJ IDEA" /> </p>
+Frontend
+<p> <img src="https://img.shields.io/badge/Vue.js-4FC08D?style=flat&logo=vue.js&logoColor=white" /> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white" /> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black" /> <img src="https://img.shields.io/badge/TailwindCSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white" /> </p>
+Backend
+<p> <img src="https://img.shields.io/badge/Java-007396?style=flat&logo=openjdk&logoColor=white" /> <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat&logo=springboot&logoColor=white" /> <img src="https://img.shields.io/badge/QueryDSL-0099CC?style=flat&logoColor=white" /> </p>
+Database
+<p> <img src="https://img.shields.io/badge/MariaDB-003545?style=flat&logo=mariadb&logoColor=white" /> </p>
+Server / Infra
+<p> <img src="https://img.shields.io/badge/Nginx-009639?style=flat&logo=nginx&logoColor=white" /> <img src="https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white" /> </p>
+Development Tools
+<p> <img src="https://img.shields.io/badge/IntelliJ-000000?style=flat&logo=intellijidea&logoColor=white" /> <img src="https://img.shields.io/badge/VSCode-007ACC?style=flat&logo=visualstudiocode&logoColor=white" /> 
 
 # 나의 역할 소개
 
@@ -98,9 +105,9 @@
 - 시간: 2분 
 - 테스트대상(전체조회, 경력검색, 복합검색, 제목검색)
 
-![개선전](docs/image/개선전 성능.png) (실제 측정자료)
+![개선전](docs/image/개선전%20성능.png) (실제 측정자료)
 
-![개선전](docs/image/개선전 성능표.png)
+![개선전](docs/image/개선전%20성능표.png)
 
 
 ### 개선 방법
